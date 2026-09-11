@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.conf import settings
 # Create your models here.
 class Category(models.Model):
     # CATEGORY_CHOICES = [
@@ -32,8 +32,8 @@ class Item(models.Model):
     status = models.CharField(max_length=10,choices=STATUS_CHOICES)
     location = models.CharField(max_length=250)
     date_occurred = models.DateTimeField()
-    image = models.ImageField(upload_to='items',blank=True)
-    reported_by = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
+    image = models.ImageField(upload_to='items/',blank=True)
+    reported_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
