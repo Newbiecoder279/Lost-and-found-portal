@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, ReportItemForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login 
 from item.models import Item
 # Create your views here.
@@ -33,3 +34,20 @@ def HomeView(request):
     items = Item.objects.all().order_by('-created_at')
 
     return render(request,'home.html',{'items':items})
+
+@login_required
+def ReportItemView(request):
+    if request.method == 'POST':
+        form = ReportItemForm(request.POST,request.FILES)
+
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.reported_by = request.user
+            item.status = 'open'
+            item.save()
+            return redirect('home')
+
+    else:
+        form = ReportItemForm()
+
+    return render(request,'reportitem.html', {'form':form})
