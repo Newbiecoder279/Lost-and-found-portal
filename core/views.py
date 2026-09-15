@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm, ReportItemForm
 from django.contrib.auth.decorators import login_required
@@ -30,6 +30,7 @@ def LoginView(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form':form})
 
+@login_required
 def HomeView(request):
     items = Item.objects.all().order_by('-created_at')
 
@@ -51,3 +52,8 @@ def ReportItemView(request):
         form = ReportItemForm()
 
     return render(request,'reportitem.html', {'form':form})
+
+
+def ItemDetailsView(request,pk):
+    item = get_object_or_404(Item, pk=pk)
+    return render(request, 'details.html', {'item':item})

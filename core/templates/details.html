@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ item.name }} - Lost & Found
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+        <div class="grid grid-cols-1 md:grid-cols-2">
+
+            <!-- Image -->
+            <div class="bg-gray-100">
+                {% if item.image %}
+                    <img
+                        src="{{ item.image.url }}"
+                        alt="{{ item.name }}"
+                        class="w-full h-full max-h-[500px] object-contain"
+                    >
+                {% else %}
+                    <div class="h-96 flex items-center justify-center">
+                        <p class="text-gray-400">
+                            No image available
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+
+
+            <!-- Details -->
+            <div class="p-8">
+
+                <!-- Item Type -->
+                <div class="mb-4">
+                    {% if item.item_type == 'lost' %}
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                            Lost Item
+                        </span>
+                    {% else %}
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
+                            Found Item
+                        </span>
+                    {% endif %}
+                </div>
+
+
+                <!-- Name -->
+                <h1 class="text-3xl font-bold text-gray-800">
+                    {{ item.name }}
+                </h1>
+
+
+                <!-- Category -->
+                <div class="mt-6">
+                    <p class="text-sm text-gray-500">
+                        Category
+                    </p>
+
+                    <p class="text-lg font-medium text-gray-800">
+                        {{ item.category }}
+                    </p>
+                </div>
+
+
+                <!-- Description -->
+                <div class="mt-6">
+                    <p class="text-sm text-gray-500">
+                        Description
+                    </p>
+
+                    <p class="text-gray-700 mt-1 leading-relaxed">
+                        {{ item.description }}
+                    </p>
+                </div>
+
+
+                <!-- Location -->
+                <div class="mt-6">
+                    <p class="text-sm text-gray-500">
+                        Location
+                    </p>
+
+                    <p class="text-lg font-medium text-gray-800">
+                        {{ item.location }}
+                    </p>
+                </div>
+
+
+                <!-- Date -->
+                <div class="mt-6">
+                    <p class="text-sm text-gray-500">
+                        Date Lost/Found
+                    </p>
+
+                    <p class="text-gray-800">
+                        {{ item.date_occurred|date:"F d, Y - h:i A" }}
+                    </p>
+                </div>
+
+
+                <!-- Status -->
+                <div class="mt-6">
+                    <p class="text-sm text-gray-500">
+                        Status
+                    </p>
+
+                    <span class="inline-block mt-1 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
+                        {{ item.get_status_display }}
+                    </span>
+                </div>
+
+
+                <!-- Reporter -->
+                <div class="mt-6">
+                    <p class="text-sm text-gray-500">
+                        Reported by
+                    </p>
+
+                    <p class="text-gray-800">
+                        {{ item.reported_by.username }}
+                    </p>
+                </div>
+
+                <br>
+                <!-- Claim button -->
+                {% if item.status == 'open' %}
+                    <div class="mt-8">
+                        <a href="#"
+                           class="inline-block w-full text-center bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                            Claim This Item
+                        </a>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -5,5 +5,6 @@ urlpatterns = [
     path('signup/', views.SignUpView, name="signup"),
     path('login/', views.LoginView, name="login"),
     path('home/',views.HomeView,name="home"),
-    path('report/',views.ReportItemView,name="report-item")
+    path('report/',views.ReportItemView,name="report-item"),
+    path('details/<int:pk>/',views.ItemDetailsView, name="item-details")
 ]
