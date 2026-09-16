@@ -1,10 +1,9 @@
 from django.urls import path,include
 from . import views
+from item.views import ReportItemView, ItemDetailsView
 urlpatterns = [
     path('', views.LandingView, name="landing"),
     path('signup/', views.SignUpView, name="signup"),
     path('login/', views.LoginView, name="login"),
     path('home/',views.HomeView,name="home"),
-    path('report/',views.ReportItemView,name="report-item"),
-    path('details/<int:pk>/',views.ItemDetailsView, name="item-details")
 ]

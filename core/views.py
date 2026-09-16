@@ -3,7 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm, ReportItemForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login 
-from item.models import Item
+from item.models import Category, Item
+from django.db.models import Q
 # Create your views here.
 def LandingView(request):
     return render(request, 'landing.html')
@@ -36,24 +37,3 @@ def HomeView(request):
 
     return render(request,'home.html',{'items':items})
 
-@login_required
-def ReportItemView(request):
-    if request.method == 'POST':
-        form = ReportItemForm(request.POST,request.FILES)
-
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.reported_by = request.user
-            item.status = 'open'
-            item.save()
-            return redirect('home')
-
-    else:
-        form = ReportItemForm()
-
-    return render(request,'reportitem.html', {'form':form})
-
-
-def ItemDetailsView(request,pk):
-    item = get_object_or_404(Item, pk=pk)
-    return render(request, 'details.html', {'item':item})
